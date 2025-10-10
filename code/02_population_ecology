@@ -1,0 +1,29 @@
+#Code for population spread over space
+
+library(spatstat)
+
+#load example dataset
+bei
+
+plot(bei,pch=15,cex=.5)
+
+# ancillary variables
+bei.extra
+
+plot(bei.extra)
+
+# only plot elevation
+el <- bei.exra$elev
+plot(el)
+
+# alternatively
+# use double square brackets because it is a raster?
+# el <- bei.extra[[1]]
+
+#bulid density raster map from points in bei dataset
+
+dmap <- density(bei)
+plot(dmap)
+
+#superimpose one dataset tothe other
+points(bei)
