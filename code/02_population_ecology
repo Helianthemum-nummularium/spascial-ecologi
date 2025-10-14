@@ -13,7 +13,7 @@ bei.extra
 plot(bei.extra)
 
 # only plot elevation
-el <- bei.exra$elev
+el <- bei.extra$elev
 plot(el)
 
 # alternatively
@@ -25,5 +25,17 @@ plot(el)
 dmap <- density(bei)
 plot(dmap)
 
-#superimpose one dataset tothe other
-points(bei)
+#superimpose one dataset to the other
+points(bei, cex=.3, pch=20)
+
+# plotting together density map and elevation map
+# we create multiframe (a box to add several objects to, basically)
+
+par(mfrow=c(2,1))
+plot(dmap)
+plot(el)
+
+# let's change the color of our maps
+
+cr<-colorRampPalette(c("#ffffff", "#15c7eb", "#faa60a", "#fa0af2", "#000000"))(100)
+plot(dmap, col=cr)
