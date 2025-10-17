@@ -2,6 +2,21 @@
 #install "sdm"
 #install "terra"
 
+library(terra)
+library(sdm)
+
 file <- system.file("external/species.shp", package="sdm")  
 rana <- vect(file)
+rana
 plot(rana, pch="\U0001F438")
+
+## rana$Occurrence: 1 if present, 0 if not
+pres <-rana[rana$Occurrence==1]
+abs <-rana[rana$Occurrence==0]
+plot(abs, pch=4, col="#ff0000")
+points(pres, pch="\U0001318F",col="#06ba45")
+
+
+par(mfrow=c(2,1))
+plot(pres, pch="\U0001318F",col="#06ba45")
+plot(abs, pch=4, col="#ff0000")
