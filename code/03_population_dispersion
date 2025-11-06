@@ -20,3 +20,58 @@ points(pres, pch="\U0001318F",col="#06ba45")
 par(mfrow=c(2,1))
 plot(pres, pch="\U0001318F",col="#06ba45")
 plot(abs, pch=4, col="#ff0000")
+
+#plot presences on top of elevation raster
+elev <- system.file("external/elevation.asc", package="sdm")
+elevmap <- rast(elev)
+cr <- colorRampPalette(c("#6685ff","#ff6687","#fff266"))(100)
+plot(elevmap, col=cr)
+points(pres, pch="•", col="#ffffff")
+
+#plot presences on top of temperatures raster
+temperature <- system.file("external/temperature.asc", package="sdm")
+tempmap <- rast(temperature)
+cr2 <- colorRampPalette(c("#0dff72","#e70dff","#555700"))(100)
+plot(tempmap, col=cr2)
+points(pres, pch="•", col="#ffffff")
+
+#install viridis
+
+library("viridis")
+
+#change color ramp palette
+plot(tempmap, col=magma(100))
+
+par(mfrow=c(1,2))
+plot(elevmap, col=mako(100))
+points(pres)
+plot(tempmap, col=magma(100))
+points(pres)
+
+rain <- system.file("external/precipitation.asc", package="sdm")
+precmap <- rast(rain)
+plot(precmap, col=plasma(100))
+points(pres, col="#ffffff")
+
+veg <- system.file("external/vegetation.asc", package="sdm")
+vegmap <- rast(veg)
+plot(vegmap, col=plasma(100))
+points(pres, col="#ffffff")
+
+# 2x2 multiframe
+par(mfrow=c(2,2))
+plot(vegmap, col=plasma(100))
+points(pres, col="#fff")
+precmap <- rast(rain)
+plot(precmap, col=cividis(100))
+points(pres, col="#fff")
+plot(elevmap, col=mako(100))
+points(pres, col="#fff")
+plot(tempmap, col=magma(100))
+points(pres)
+
+
+# stacc
+
+ancvar <- c(elevmap, tempmap, precmap, vegmap)
+plot(ancvar)
