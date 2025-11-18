@@ -1,5 +1,5 @@
 #temporal overlap
-#intall overlap package
+#install overlap package
 
 library(overlap)
 data(kerinci)
@@ -20,3 +20,15 @@ macaquetime <- macaque$azimuth
 
 densityPlot(macaquetime)
 overlapPlot( macaquetime, tigertime)
+
+#species list
+par(mfrow=c(3,3))
+species_list <- unique(kerinci$Sps)
+
+for (sps in species_list) {
+  species_data <- kerinci[kerinci$Sps == sps,-3]
+    # Create a density plot for the 'circ' variable of the current species
+  plot(density(species_data$azimuth), 
+       main = paste("Density Plot of Circumference for", sps), 
+       xlab = "Circumference")
+}
