@@ -10,3 +10,7 @@ predator <- c("zooplankton", "smolfish", "bigfish", "birbs", "birbs")
 prey <- c("algae", "zooplankton","smolfish", "smolfish", "bigfish")
 
 interactions <- data.frame(predator, prey)
+
+G <- graph_from_data_frame(interactions, vertices=species, directed=T)
+
+set.seed(42)
