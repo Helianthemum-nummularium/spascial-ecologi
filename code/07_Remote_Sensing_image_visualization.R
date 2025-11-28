@@ -50,3 +50,10 @@ plot(b2,b3, xlab="b2-blue", ylab="b3-green", main= "blue vs green")
 
 
 plot(b2,b8, xlab="b2-blue", ylab="b8-green", main= "blue vs NIR")
+
+#creating RGB image
+
+im.plotRGB(multiband, r=3, g=2, b=1) #natural color image
+im.plotRGB(multiband, r=4, g=3, b=2)#false color image
+im.plotRGB(multiband, r=3, g=4, b=2)#false color image
+im.plotRGB(multiband, r=3, g=2, b=4)#false color image
