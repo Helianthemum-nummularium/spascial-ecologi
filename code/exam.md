@@ -15,14 +15,7 @@ loading list of coordinates from directory. The coordinates are taken from the a
 colonies_article<-as.matrix(read.csv("pingwin.csv",sep=";"))
 multipenguin<-st_multipoint(colonies_article)
 multipenguin2<-st_sfc(multipenguin,crs=4326)
-
-```
-
-
-```r
-multipenguin3<-vect(multipenguin2)
-aois<-buffer(multipenguin3,10000)
-aois2<-st_as_sf(aois)
+aois<-st_buffer(multipenguin2, dist=10000)
 
 ```
 
