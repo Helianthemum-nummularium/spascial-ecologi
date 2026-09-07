@@ -24,7 +24,7 @@ getwd()
 ##[1] "C:/Users/Elia/Desktop/UniBo/ERRE/Specology"
 
 ```
-Now we set up all the required objects and variables to use as parameters with the package CDSE:
+Now we set up all the required variables to use as parameters with the package CDSE:
 * Vector file of our lake of interest, from this we calculate its bounding box;
 * Creating a client to use the API;
 * Retrieving the exact name of the sentinel 2 collection that we're going to use;
