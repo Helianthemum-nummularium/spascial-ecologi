@@ -80,6 +80,8 @@ least_cloudy <- do.call(rbind, least_cloudy)
 
 
 The next step is to actually download the rasters using the acquisition dates of the least cloudy images as parameter. As we do this operation we can also apply an evaluation script to the images we download to obtain our desired final product right away. Band can be combined to derive any kind of index. In this case, we are going to use a script provided by  (https://custom-scripts.sentinel-hub.com/custom-scripts/sentinel-2/ulyssys_water_quality_viewer/). The script in question, Ulyssys Water Quality Viewer (UWQV), is a custom script to visualize the chlorophyll and sediment conditions of water bodies on both Sentinel-2 and Sentinel-3 images. According to the website "UWQV is just a visualization, not a quantitative map."
+<img width="1120" height="743" alt="palette" src="https://github.com/user-attachments/assets/4fc691b0-8198-4065-ba4a-9ca0a7dbee20" />
+
 ```r
 days<-least_cloudy$acquisitionDate
 ##downloading the rasters
