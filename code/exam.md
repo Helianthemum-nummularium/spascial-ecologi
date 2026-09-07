@@ -1,3 +1,6 @@
+# Water quality of Lago Maggiore over the course of 2 months, as a GIF
+
+We are going to apply a Ulyssys Water Quality Viewer ([sentinel2-Ulyssys](https://custom-scripts.sentinel-hub.com/custom-scripts/sentinel-2/ulyssys_water_quality_viewer/)) to a set of satellite images of Lago Maggiore that span approximately 2 months and then turn them into an animated gif. The period in exam is June-July 2026. To streamline the entire process we are going to use the package "CDSE", an API wrapper for Copernicus Data Space Ecosystem.
 
 Installing libraries (optional)
 ```r
@@ -14,7 +17,6 @@ library(terra)
 library(sf)
 library(magick)
 ```
-
 Setting working directory
 ```r
 setwd("C:/Users/Elia/Desktop/UniBo/ERRE/Specology")
@@ -22,7 +24,6 @@ getwd()
 ##[1] "C:/Users/Elia/Desktop/UniBo/ERRE/Specology"
 
 ```
-
 Now we set up all the required objects and variables to use as parameters with the package CDSE:
 * Vector file of our lake of interest, from this we calculate its bounding box;
 * Creating a client to use the API;
@@ -33,13 +34,16 @@ Now we set up all the required objects and variables to use as parameters with t
 ##load lago maggiore vector file and calculate bbox
 lagmag_as_sf<-st_read("lago_maggiore.geojson")
 bbox<-st_bbox(lagmag_as_sf)
-
-##get client
+```
+Get client
+```r
 client<-GetOAuthClient(
 id="##-########-####-####-####-###########",
 secret="################################"
 )
-##
+```
+Retrieve available collections and store id of the one we need into a variable for later use.
+```r
 GetCollections()
 ##                       id                   title
 ## 1         sentinel-2-l1c          Sentinel 2 L1C
@@ -53,10 +57,11 @@ GetCollections()
 ## 9         sentinel-2-l2a          Sentinel 2 L2A
 ## 10        sentinel-5p-l2    Sentinel 5 Precursor
 ## ...
-##store name into a variable for ease of use
-sent2<-"sentinel-2-l2a"
 
-## create intervals
+sent2<-"sentinel-2-l2a"
+```
+Creating time intervals
+```r
 intervals<-lapply(1:10,function(i){
     start<-as.Date("2026-06-01","%Y-%m-%d")+6*(i-1)
     end<-as.Date(format(start + 2, "%Y-%m-%d"))
@@ -77,10 +82,10 @@ least_cloudy <- lapply(query, function(df) {
 ## turning the list of data frames into a single data frame
 least_cloudy <- do.call(rbind, least_cloudy)
 ```
-
-
-The next step is to actually download the rasters using the acquisition dates of the least cloudy images as parameter. As we do this operation we can also apply an evaluation script to the images we download to obtain our desired final product right away. Band can be combined to derive any kind of index. In this case, we are going to use a script provided by  (https://custom-scripts.sentinel-hub.com/custom-scripts/sentinel-2/ulyssys_water_quality_viewer/). The script in question, Ulyssys Water Quality Viewer (UWQV), is a custom script to visualize the chlorophyll and sediment conditions of water bodies on both Sentinel-2 and Sentinel-3 images. According to the website "UWQV is just a visualization, not a quantitative map."
-<img width="1120" height="743" alt="palette" src="https://github.com/user-attachments/assets/4fc691b0-8198-4065-ba4a-9ca0a7dbee20" />
+The next step is to actually download the rasters using the acquisition dates of the least cloudy images as parameter. As we do this operation we can also apply an evaluation script to the images we download to obtain our desired final product right away. Band can be combined to derive any kind of index. In this case, we are going to use the script found here: [sentinel2-Ulyssys](https://custom-scripts.sentinel-hub.com/custom-scripts/sentinel-2/ulyssys_water_quality_viewer/). The script in question, Ulyssys Water Quality Viewer (UWQV), is a custom script to visualize the chlorophyll and sediment conditions of water bodies on both Sentinel-2 and Sentinel-3 images. According to the website "UWQV is just a visualization, not a quantitative map."
+<figure>
+<img width="400" height="250" alt="palette" src="https://github.com/user-attachments/assets/4fc691b0-8198-4065-ba4a-9ca0a7dbee20" />
+<figcaption>Color palette of Ulyssys Water Quality Viewer</figcaption></figure>
 
 ```r
 days<-least_cloudy$acquisitionDate
@@ -104,7 +109,7 @@ sapply(seq_along(days), FUN = function(i) {
 <img width="1651" height="1404" alt="Rplot01" src="https://github.com/user-attachments/assets/3bac3efc-7447-48cf-b8df-849fc8afb2d2" />
 
 ## Creating animated gif
-##### Now we are going to work with the library magick to create an animated gif using the 10 rasters as frames.
+### Now we are going to work with the library magick to create an animated gif using the 10 rasters as frames.
 
 Setting variables to use for sizing legend and image
 ```r
@@ -156,7 +161,7 @@ Joining images
 ```r
 maps <- magick::image_join(maps)
 ```
-Applying legend to each frame (color palette also taken from: (https://custom-scripts.sentinel-hub.com/custom-scripts/sentinel-2/ulyssys_water_quality_viewer/)
+Applying legend to each frame (color palette is the one previously shown).
 ```r
 legend <- magick::image_resize(magick::image_read("palette.png"),sprintf("%dx",legend_width))
 
