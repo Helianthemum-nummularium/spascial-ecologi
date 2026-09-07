@@ -157,7 +157,7 @@ maps <- lapply(seq_along(lstRast), function(i) {
   map
 })
 ```
-Joining images
+Combining images into a single image object with multiple frames
 ```r
 maps <- magick::image_join(maps)
 ```
