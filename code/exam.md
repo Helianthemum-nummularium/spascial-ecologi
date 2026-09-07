@@ -98,8 +98,11 @@ sapply(seq_along(days), FUN = function(i) {
      terra::plot(ras)
  })
 ```
-Now we are going to work with the library magick to create an animated gif using the 10 rasters as frames.
 
+<img width="1651" height="1404" alt="Rplot01" src="https://github.com/user-attachments/assets/3bac3efc-7447-48cf-b8df-849fc8afb2d2" />
+
+## Creating animated gif
+##### Now we are going to work with the library magick to create an animated gif using the 10 rasters as frames.
 
 Setting variables to use for sizing legend and image
 ```r
@@ -109,7 +112,7 @@ image_h<-nrow(lstRast[[1]])
 legend_width<-round(ncol(lstRast[[1]])/2,0)
 ```
 
-Storing the rasters into temporary png files
+Storing the rasters into temporary png files and annotating the acquisition date on top of each one, then storing everything into a list
 ```r
 maps <- lapply(seq_along(lstRast), function(i) {
 
@@ -128,10 +131,7 @@ maps <- lapply(seq_along(lstRast), function(i) {
   dev.off()
 
   map <- magick::image_read(f)
-```
 
-Annotating the acquisition date on top of each frame
-```r
   # Date from the raster name
   date <- names(lstRast)[i]
 
@@ -149,9 +149,9 @@ Annotating the acquisition date on top of each frame
 
   map
 })
-
-
-
+```
+Joining images
+```r
 maps <- magick::image_join(maps)
 ```
 Applying legend to each frame (color palette also taken from: (https://custom-scripts.sentinel-hub.com/custom-scripts/sentinel-2/ulyssys_water_quality_viewer/)
@@ -181,3 +181,4 @@ magick::image_write(
 )
 
 ```
+<img width="1178" height="2024" alt="map_animation" src="https://github.com/user-attachments/assets/6ec8effb-cb7e-4022-9503-5a1e47df9a28" />
