@@ -60,7 +60,7 @@ GetCollections()
 
 sent2<-"sentinel-2-l2a"
 ```
-Creating time intervals
+Creating time intervals. We will creatin then intervals 6 days apart from one another in order to cover 2 months. Each interval comprises 3 days because we still want the ability to choose the least cloudy image, if possible.
 ```r
 intervals<-lapply(1:10,function(i){
     start<-as.Date("2026-06-01","%Y-%m-%d")+6*(i-1)
