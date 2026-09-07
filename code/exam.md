@@ -28,7 +28,7 @@ Now we set up all the required variables to use as parameters with the package C
 * Vector file of our lake of interest, from this we calculate its bounding box;
 * Creating a client to use the API;
 * Retrieving the exact name of the sentinel 2 collection that we're going to use;
-* Creating time intervals for uor period of interest.
+* Creating time intervals for our period of interest.
 
 ```r
 ##load lago maggiore vector file and calculate bbox
